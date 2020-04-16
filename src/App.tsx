@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
+import { Switch, useHistory } from 'react-router-dom';
+import './App.sass';
+import Recipes from './components/Recipes/Recipes';
+import Ingredients from './components/Ingredients/Ingredients';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
+  const history = useHistory();
+
+  useEffect(() => {
+    history.push('/recipes/');
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="crescendo-app">
+      <Switch>
+        <PrivateRoute path="/recipes/:id?" component={() => <Recipes />} />
+        <PrivateRoute
+          path="/ingredients/:id?"
+          component={() => <Ingredients />}
+        />
+      </Switch>
     </div>
   );
 }

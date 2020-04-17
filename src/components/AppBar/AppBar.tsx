@@ -4,7 +4,7 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Button,
+  Tooltip,
 } from '@material-ui/core';
 import {
   makeStyles,
@@ -13,7 +13,9 @@ import {
   Theme,
 } from '@material-ui/core/styles';
 import { BaseCSSProperties } from '@material-ui/core/styles/withStyles';
-import { Menu as MenuIcon } from '@material-ui/icons';
+import { Add as AddIcon, ArrowBack } from '@material-ui/icons';
+import { useParams, useHistory } from 'react-router-dom';
+import events from '../../helpers/events';
 
 interface StyleProps {
   root: BaseCSSProperties;
@@ -29,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      display: 'none',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
@@ -52,21 +53,37 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const AppBar = () => {
-  const classes = useStyles();
+  const classes = useStyles({} as StyleProps);
+  const { id } = useParams();
+  const history = useHistory();
   return (
-    <Bar position="relative">
+    <Bar position="fixed">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
+        {id && (
+          <Tooltip title="Back to Recipes Page">
+            <IconButton
+              onClick={() => history.push('/recipes')}
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <ArrowBack />
+            </IconButton>
+          </Tooltip>
+        )}
+        <Typography variant="h5" className={classes.title}>
           Crescendo App Exam
         </Typography>
-        <IconButton
-          edge="start"
-          className={classes.menuButton}
-          color="inherit"
-          aria-label="menu"
-        >
-          <MenuIcon />
-        </IconButton>
+        <Tooltip title="Create Recipe">
+          <IconButton
+            onClick={() => events.$emit('add-recipe', true)}
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
       </Toolbar>
     </Bar>
   );

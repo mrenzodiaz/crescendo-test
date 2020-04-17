@@ -1,26 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { Switch, useHistory } from 'react-router-dom';
+import { Switch, useHistory, useLocation } from 'react-router-dom';
 import './App.sass';
 import Recipes from './components/Recipes/Recipes';
-import Ingredients from './components/Ingredients/Ingredients';
+import Recipe from './components/Recipe/Recipe';
 import PrivateRoute from './PrivateRoute';
+import CreateRecipeModal from './components/Modal/CreateRecipeModal';
 
 function App() {
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
-    history.push('/recipes/');
-  }, []);
+    if (location.pathname === '/') {
+      history.push('/recipes/');
+    }
+  }, [location]);
 
   return (
     <div id="crescendo-app">
+      <CreateRecipeModal />
       <Switch>
-        <PrivateRoute path="/recipes/:id?" component={() => <Recipes />} />
-        <PrivateRoute
-          path="/ingredients/:id?"
-          component={() => <Ingredients />}
-        />
+        <PrivateRoute path="/recipes/" component={() => <Recipes />} />
+        <PrivateRoute path="/recipe/:id" component={() => <Recipe />} />
       </Switch>
     </div>
   );

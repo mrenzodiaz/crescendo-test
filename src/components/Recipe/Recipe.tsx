@@ -100,6 +100,7 @@ export const Recipe = () => {
                   recipeDetails.ingredients &&
                   recipeDetails.ingredients.map((item: any, index: any) => (
                     <Grid
+                      key={index}
                       container
                       wrap="nowrap"
                       spacing={2}
@@ -124,6 +125,7 @@ export const Recipe = () => {
                   recipeDetails.directions &&
                   recipeDetails.directions.map((item: any, index: any) => (
                     <Grid
+                      key={index}
                       container
                       wrap="nowrap"
                       spacing={2}
